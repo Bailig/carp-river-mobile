@@ -1,14 +1,29 @@
 import React from 'react'
-import { View, Text } from 'react-native'
 
-export default (props) => {
+import { Slides } from '../components'
+import { green, blue, orange, pink } from '../components/colors'
+
+const slideData = [
+    { 
+        text: 'Welcome to Carp River Mobile App',
+        backgroundColor: blue
+    },
+    { 
+        text: 'Explore',
+        backgroundColor: green
+    },
+    { 
+        text: 'Collect',
+        backgroundColor: pink
+    },
+    { 
+        text: 'Share',
+        backgroundColor: orange
+    }
+]
+
+export default ({ navigation }) => {
     return (
-        <View>
-            <Text>welcome!!</Text>
-            <Text>welcome!!</Text>
-            <Text>welcome!!</Text>
-            <Text>welcome!!</Text>
-            <Text>welcome!!</Text>
-        </View>
+        <Slides data={slideData} onComplete={() => navigation.navigate('Auth')} />
     )
 }

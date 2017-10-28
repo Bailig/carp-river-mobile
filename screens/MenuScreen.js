@@ -1,8 +1,10 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
+import { connect } from 'react-redux'
 
+import * as actions from '../actions'
 
-export default ({ navigation }) => {
+const MenuScreen = ({ navigation, logoutUser }) => {
     const { navigate, goBack, state } = navigation
 
     return (
@@ -12,6 +14,10 @@ export default ({ navigation }) => {
             <Text>menu!!</Text>
             <Text>menu!!</Text>
             <Text>menu!!</Text>
+            <Button
+                title='Log out'
+                onPress={logoutUser}
+            />
             <Button
                 title='Profile'
                 onPress={() => navigate('Profile', { menuKey: state.key })}
@@ -31,3 +37,5 @@ export default ({ navigation }) => {
         </View>
     )
 }
+
+export default connect(null, actions)(MenuScreen)
