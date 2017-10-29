@@ -1,6 +1,14 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Dimensions } from 'react-native'
+import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
+import { MapView } from 'expo'
+
+import * as actions from '../actions'
+import { Spinner } from '../components'
+import { white, green } from '../components/colors'
+
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 class MapScreen extends React.Component {
 
@@ -11,26 +19,54 @@ class MapScreen extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.watchCurrentPosition()
+    }
+
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.props.currentPositionWatchId)
+    }
+
     render() {
-        const { navigation } = this.props
+        const { navigation, currentPositionRegion, mapLoaded } = this.props
+        if (!mapLoaded) {
+            return <Spinner />
+        }
         return (
-            <View>
-                <Text>map!!</Text>
-                <Text>map!!</Text>
-                <Text>map!!</Text>
-                <Text>map!!</Text>
-                <Text>map!!</Text>
-                <Button 
-                    title='Menu'
+            <View style={{ flex: 1 }} >
+                <MapView
+                    showsUserLocation
+                    initialRegion={currentPositionRegion}
+                    mixZoomLevel={17}
+                    style={{ flex: 1 }}
+                />
+                <Icon
+                    containerStyle={styles.iconContainerStyle}
+                    raised
+                    name='briefcase'
+                    type='font-awesome'
+                    color={white}
+                    size={30}
                     onPress={() => navigation.navigate('Menu')}
                 />
             </View>
         )
     }
 }
-const mapStateToProps = ({ auth }, ownProps) => {
-    const { loggedIn } = auth
-    return { loggedIn }
+
+const styles = {
+    iconContainerStyle: {
+        position: 'absolute',
+        marginLeft: (SCREEN_WIDTH / 2.0) - 30,
+        bottom: 20,
+        backgroundColor: green
+    }
 }
 
-export default connect(mapStateToProps)(MapScreen)
+const mapStateToProps = ({ auth, map }, ownProps) => {
+    const { loggedIn } = auth
+    const { currentPositionRegion, currentPositionWatchId, mapLoaded } = map
+    return { loggedIn, currentPositionRegion, currentPositionWatchId, mapLoaded }
+}
+
+export default connect(mapStateToProps, actions)(MapScreen)

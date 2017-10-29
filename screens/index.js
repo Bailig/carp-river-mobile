@@ -23,23 +23,51 @@ class Screens extends React.Component {
     render() {
         const MainFlow = StackNavigator({
             Map: { screen: MapScreen },
-            Menu: { screen: MenuScreen },
             Profile: { screen: ProfileScreen },
             Camera: { screen: CameraScreen },
-            Info: { screen: InfoScreen }
+            Info: { screen: InfoScreen },
+            Menu: { screen: MenuScreen }
         }, {
-            mode: 'modal'
-        })
+                cardStyle: {
+                    backgroundColor: 'rgba(213, 213, 213, 0.9)'
+                },
+                transitionConfig: () => {
+                    return {
+                        screenInterpolator: sceneProps => {
+                            const { layout, position, scene } = sceneProps;
+                            const { index } = scene;
+
+                            const height = layout.initHeight;
+                            const translateY = position.interpolate({
+                                inputRange: [index - 1, index, index + 1],
+                                outputRange: [height, 0, 0],
+                            });
+
+                            const opacity = position.interpolate({
+                                inputRange: [index - 1, index - 0.99, index],
+                                outputRange: [0, 1, 1],
+                            });
+
+                            return { opacity, transform: [{ translateY }] };
+                        }
+                    }
+                },
+                mode: 'modal',
+                navigationOptions: {
+                    header: false
+                }
+            })
 
         const AppNavigator = TabNavigator({
             Main: { screen: MainFlow },
             Welcome: { screen: WelcomeScreen },
             Auth: { screen: AuthScreen }
         }, {
-            navigationOptions: {
-                tabBarVisible: false
-            }
-        })
+                navigationOptions: {
+                    tabBarVisible: false
+                }
+            })
+
 
         switch (this.props.loggedIn) {
             case null:

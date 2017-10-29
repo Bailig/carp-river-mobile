@@ -1,19 +1,18 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { View, Text } from 'react-native'
+
+import { BackButton } from '../components'
 
 export default ({ navigation }) => {
     const { goBack, state } = navigation
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <Text>info!!</Text>
             <Text>info!!</Text>
             <Text>info!!</Text>
             <Text>info!!</Text>
             <Text>info!!</Text>
-            <Button 
-                title='Back'
-                onPress={() => goBack(state.params.menuKey)}
-            />
+            <BackButton onPress={() => goBack(state.params.menuKey)} />
         </View>
     )
 }

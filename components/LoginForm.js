@@ -5,7 +5,7 @@ import { FormInput, FormValidationMessage } from 'react-native-elements'
 import { RoundedButton } from './RoundedButton'
 import { Spinner } from './Spinner'
 
-const screenWidth = Dimensions.get('window').width
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const LoginForm = ({ 
     navigate, data, onEmailChange, onPasswordChange, onSubmit
@@ -56,7 +56,7 @@ export const LoginForm = ({
 
 const styles = {
     containerStyle: {
-        width: screenWidth - 40
+        width: SCREEN_WIDTH - 40
     },
     formInputStyle: {
         height: 50

@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, ScrollView, Dimensions, Button } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 
-import { white } from './colors'
+import { RoundedButton } from './RoundedButton'
+import { white, blue } from './colors'
 
-const screenWidth = Dimensions.get('window').width
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const Slides = ({ data, onComplete }) => {
     const { textStyle, slideStyle } = styles
@@ -11,9 +12,10 @@ export const Slides = ({ data, onComplete }) => {
     const renderButton = (index) => {
         if (index === data.length - 1) {
             return (
-                <Button 
+                <RoundedButton 
                     title='Get Started!'
                     onPress={onComplete}
+                    backgroundColor={blue}
                 />
             )
         }
@@ -52,7 +54,7 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: screenWidth,
+        width: SCREEN_WIDTH,
         paddingLeft: 20,
         paddingRight: 20
     },
