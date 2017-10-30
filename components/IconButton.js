@@ -1,17 +1,26 @@
 import React from 'react'
 import { Icon } from 'react-native-elements'
 
-import { white, textBlue } from './colors'
+import { black } from './colors'
 
-export const IconButton = ({ containerStyle, backgroundColor = white, color = textBlue, name, type, onPress }) => {
+export const IconButton = ({ 
+    color = black, 
+    size = 30,
+    reverse = false,
+    containerStyle, 
+    name, 
+    type,
+    onPress
+}) => {
     return (
         <Icon
             raised
-            containerStyle={[containerStyle, { backgroundColor: backgroundColor }]}
+            reverse={reverse}
+            containerStyle={containerStyle}
             name={name}
             type={type}
             color={color}
-            size={30}
+            size={size}
             onPress={onPress}
         />
     )

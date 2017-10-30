@@ -1,11 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
-import { Button } from 'react-native-elements'
 
 import * as actions from '../actions'
-import { IconButton, BackButton } from '../components'
-import { textBlue } from '../components/colors'
+import { IconButton, BackButton, TextButton } from '../components'
+import { black } from '../components/colors'
 
 const MenuScreen = ({ navigation, logoutUser }) => {
     const { navigate, goBack, state } = navigation
@@ -21,12 +20,10 @@ const MenuScreen = ({ navigation, logoutUser }) => {
                 }}
             >
 
-                <Button
-                    iconRight={{ name: 'logout', type: 'material-community', color: textBlue }}
+                <TextButton
+                    iconRight={{ name: 'logout', type: 'material-community', color: black }}
                     title='Log out' 
-                    color={textBlue}
                     onPress={logoutUser}
-                    backgroundColor='rgba(0, 0, 0, 0)'
                 />
             </View>
 

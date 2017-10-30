@@ -8,19 +8,31 @@ import {
     USER_LOGIN_FAIL,
     USER_FETCH_SUCCESS,
     USER_FETCH_FAIL,
-    USER_LOGOUT
+    USER_LOGOUT_SUCCESS,
+    USER_LOGOUT_FAIL,
+    USER_SIGNUP_FAIL,
+    USER_NAME_UPDATE_SUCCESS,
+    USER_NAME_UPDATE_FAIL,
+    NAME_UPDATE
 } from './types'
 
-export const updateEmail = (value) => {
+export const updateFormEmail = (value) => {
     return {
         type: EMAIL_UPDATE,
         payload: value
     }
 }
 
-export const updatePassword = (value) => {
+export const updateFormPassword = (value) => {
     return {
         type: PASSWORD_UPDATE,
+        payload: value
+    }
+}
+
+export const updateFormName = (value) => {
+    return {
+        type: NAME_UPDATE,
         payload: value
     }
 }
@@ -41,9 +53,14 @@ export const loginUser = ({ email, password }, callback) => (dispatch) => {
         })
 }
 
-export const logoutUser = () => {
+export const logoutUser = () => (dispatch) => {
     firebase.auth().signOut()
-    return { type: USER_LOGOUT }
+        .then(() => {
+            dispatch({ type: USER_LOGOUT_SUCCESS })
+        })
+        .catch(() => {
+            dispatch({ type: USER_LOGOUT_FAIL, payload: 'Log out failed.' })
+        })
 }
 
 
@@ -58,4 +75,25 @@ export const listenAuthState = () => (dispatch) => {
             dispatch({ type: USER_FETCH_FAIL })
         }
     })
+}
+
+export const updateUserName = (name) => (dispatch) => {
+    firebase.auth().currentUser.updateProfile({ displayName: name })
+        .then(() => {
+            dispatch({ type: USER_NAME_UPDATE_SUCCESS })
+        })
+        .catch(() => {
+            dispatch({ type: USER_NAME_UPDATE_FAIL, payload: 'Update name failed.' })
+        });
+}
+
+export const signupUser = ({ email, password, name }, callback) => (dispatch) => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            dispatch(updateUserName(name))
+            callback()
+        })
+        .catch(() => {
+            dispatch({ type: USER_SIGNUP_FAIL, payload: 'Sign up failed.' })
+        })
 }

@@ -6,12 +6,13 @@ import { connect } from 'react-redux'
 import { firebaseConfig } from '../config/keys'
 import * as actions from '../actions'
 import WelcomeScreen from './WelcomeScreen'
-import AuthScreen from './AuthScreen'
+import LoginScreen from './LoginScreen'
 import MapScreen from './MapScreen'
 import MenuScreen from './MenuScreen'
 import CameraScreen from './CameraScreen'
 import InfoScreen from './InfoScreen'
 import ProfileScreen from './ProfileScreen'
+import SignupScreen from './SignupScreen'
 import { Spinner } from '../components'
 
 class Screens extends React.Component {
@@ -28,46 +29,58 @@ class Screens extends React.Component {
             Info: { screen: InfoScreen },
             Menu: { screen: MenuScreen }
         }, {
-                cardStyle: {
-                    backgroundColor: 'rgba(213, 213, 213, 0.9)'
-                },
-                transitionConfig: () => {
-                    return {
-                        screenInterpolator: sceneProps => {
-                            const { layout, position, scene } = sceneProps;
-                            const { index } = scene;
+            cardStyle: {
+                backgroundColor: 'rgba(213, 213, 213, 0.9)'
+            },
+            transitionConfig: () => {
+                return {
+                    screenInterpolator: sceneProps => {
+                        const { layout, position, scene } = sceneProps;
+                        const { index } = scene;
 
-                            const height = layout.initHeight;
-                            const translateY = position.interpolate({
-                                inputRange: [index - 1, index, index + 1],
-                                outputRange: [height, 0, 0],
-                            });
+                        const height = layout.initHeight;
+                        const translateY = position.interpolate({
+                            inputRange: [index - 1, index, index + 1],
+                            outputRange: [height, 0, 0],
+                        });
 
-                            const opacity = position.interpolate({
-                                inputRange: [index - 1, index - 0.99, index],
-                                outputRange: [0, 1, 1],
-                            });
+                        const opacity = position.interpolate({
+                            inputRange: [index - 1, index - 0.99, index],
+                            outputRange: [0, 1, 1],
+                        });
 
-                            return { opacity, transform: [{ translateY }] };
-                        }
+                        return { opacity, transform: [{ translateY }] };
                     }
-                },
-                mode: 'modal',
-                navigationOptions: {
-                    header: false
                 }
-            })
+            },
+            mode: 'modal',
+            navigationOptions: {
+                header: false
+            }
+        })
+        
+        const AuthFlow = StackNavigator({
+            Login: { 
+                screen: LoginScreen
+            },
+            Signup: { screen: SignupScreen }
+        }, {
+            mode: 'modal',
+            navigationOptions: {
+                header: false
+            }
+        })
+
 
         const AppNavigator = TabNavigator({
             Main: { screen: MainFlow },
             Welcome: { screen: WelcomeScreen },
-            Auth: { screen: AuthScreen }
+            Auth: { screen: AuthFlow }
         }, {
                 navigationOptions: {
                     tabBarVisible: false
                 }
             })
-
 
         switch (this.props.loggedIn) {
             case null:

@@ -1,64 +1,35 @@
 import React from 'react'
-import { View, Dimensions } from 'react-native'
-import { FormInput, FormValidationMessage } from 'react-native-elements'
+import { FormValidationMessage } from 'react-native-elements'
 
-import { RoundedButton } from './RoundedButton'
-import { Spinner } from './Spinner'
+import { RoundedButton, Form, EmailInput, PasswordInput } from './index'
 
-const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const LoginForm = ({ 
     navigate, data, onEmailChange, onPasswordChange, onSubmit
 }) => {
-    const { containerStyle, formInputStyle } = styles
     const { email, password, error, loading } = data
 
-    const renderButton = () => {
-        if (loading) {
-            return <Spinner />
-        }
-        return (
-            <RoundedButton
-                title='Log in' 
-                onPress={() => onSubmit({ email, password }, () => {
-                    navigate('Main')
-                })}
-            />
-        )
-    }
-    
     return (
-        <View style={containerStyle}>
-            <FormInput
-                autoCapitalize={'none'}
-                autoCorrect={false}
-                placeholder='email'
-                inputStyle={formInputStyle}
-                value={email}
+        <Form>
+            <EmailInput 
+                value={email} 
                 onChangeText={(value) => onEmailChange(value)} 
             />
 
-            <FormInput
-                secureTextEntry
-                autoCorrect={false}
-                placeholder='password'
-                inputStyle={formInputStyle}
+            <PasswordInput
                 value={password}
                 onChangeText={(value) => onPasswordChange(value)} 
             />
 
             <FormValidationMessage>{error}</FormValidationMessage>
 
-            {renderButton()}
-        </View>
+            <RoundedButton
+                title='Log in' 
+                onPress={() => onSubmit({ email, password }, () => {
+                    navigate('Main')
+                })}
+                loading={loading}
+            />
+        </Form>
     )
-}
-
-const styles = {
-    containerStyle: {
-        width: SCREEN_WIDTH - 40
-    },
-    formInputStyle: {
-        height: 50
-    }
 }

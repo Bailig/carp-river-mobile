@@ -1,12 +1,12 @@
 import React from 'react'
-import { View, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { MapView } from 'expo'
 
 import * as actions from '../actions'
-import { Spinner } from '../components'
-import { white, green } from '../components/colors'
+import { Spinner, Container } from '../components'
+import { green } from '../components/colors'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
@@ -17,12 +17,9 @@ class MapScreen extends React.Component {
         if (!loggedIn) {
             navigation.navigate('Welcome')
         }
-    }
-
-    componentDidMount() {
         this.props.watchCurrentPosition()
     }
-
+    
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.props.currentPositionWatchId)
     }
@@ -33,23 +30,28 @@ class MapScreen extends React.Component {
             return <Spinner />
         }
         return (
-            <View style={{ flex: 1 }} >
+            <Container>
                 <MapView
+                    provider='google'
                     showsUserLocation
+                    showsMyLocationButton
+                    showsCompass
+                    showsScale
                     initialRegion={currentPositionRegion}
-                    mixZoomLevel={17}
+                    minZoomLevel={10}
                     style={{ flex: 1 }}
                 />
                 <Icon
                     containerStyle={styles.iconContainerStyle}
                     raised
+                    reverse
                     name='briefcase'
                     type='font-awesome'
-                    color={white}
+                    color={green}
                     size={30}
                     onPress={() => navigation.navigate('Menu')}
                 />
-            </View>
+            </Container>
         )
     }
 }
@@ -58,8 +60,7 @@ const styles = {
     iconContainerStyle: {
         position: 'absolute',
         marginLeft: (SCREEN_WIDTH / 2.0) - 30,
-        bottom: 20,
-        backgroundColor: green
+        bottom: 20
     }
 }
 

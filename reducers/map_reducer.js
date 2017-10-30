@@ -1,16 +1,13 @@
+import { getRegion } from '../actions/map_actions'
 import {
     CURRENT_POSITION_FETCH_FAIL,
     CURRENT_POSITION_UPDATE,
     CURRENT_POSITION_WATCH_ID_UPDATE
 } from '../actions/types'
 
+
 const initialState = {
-    currentPositionRegion: {
-        latitude: 45.4215,
-        longitude: -75.6972,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0519
-    },
+    currentPositionRegion: getRegion({ latitude: 45.4215, longitude: -75.6972 }),
     currentPositionWatchId: null,
     mapLoaded: false,
     error: null

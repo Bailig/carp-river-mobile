@@ -5,12 +5,19 @@ import {
     PASSWORD_UPDATE,
     EMAIL_UPDATE,
     USER_FETCH_FAIL,
-    USER_FETCH_SUCCESS
+    USER_FETCH_SUCCESS,
+    USER_LOGOUT_FAIL,
+    USER_LOGOUT_SUCCESS,
+    USER_NAME_UPDATE_FAIL,
+    USER_NAME_UPDATE_SUCCESS,
+    NAME_UPDATE,
+    USER_SIGNUP_FAIL
 } from '../actions/types'
 
 const initialState = {
     email: '',
     password: '',
+    name: '',
     error: '',
     loading: false,
     user: null,
@@ -19,6 +26,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case NAME_UPDATE:
+            return {
+                ...state,
+                name: action.payload
+            }
         case EMAIL_UPDATE:
             return {
                 ...state,
@@ -47,7 +59,8 @@ export default (state = initialState, action) => {
         case USER_LOGIN:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             }
         case USER_FETCH_FAIL:
             return {
@@ -58,7 +71,33 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
+                error: '',
                 loggedIn: true
+            }
+        case USER_LOGOUT_FAIL:
+            return { 
+                ...state, 
+                error: action.payload 
+            }
+        case USER_LOGOUT_SUCCESS:
+            return { 
+                ...state, 
+                error: ''
+            }
+        case USER_NAME_UPDATE_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case USER_NAME_UPDATE_SUCCESS:
+            return {
+                ...state,
+                error: ''
+            }
+        case USER_SIGNUP_FAIL:
+            return {
+                ...state,
+                error: action.payload
             }
         default:
             return state
