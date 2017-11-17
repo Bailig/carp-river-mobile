@@ -20,7 +20,11 @@ const initialState = {
     name: '',
     error: '',
     loading: false,
-    user: null,
+    user: {
+        user: {
+            displayName: '',
+        },
+    },
     loggedIn: null
 }
 

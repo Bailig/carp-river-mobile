@@ -10,7 +10,7 @@ import {
 export const getRegion = ({ latitude, longitude }) => {
     const { width, height } = Dimensions.get('window')
     const aspectRatio = width / height
-    const latitudeDelta = 0.009
+    const latitudeDelta = 0.012
     return {
         latitude,
         longitude,

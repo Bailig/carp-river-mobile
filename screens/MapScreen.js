@@ -25,7 +25,7 @@ class MapScreen extends React.Component {
     }
 
     render() {
-        const { navigation, currentPositionRegion, mapLoaded } = this.props
+        const { navigation, currentPositionRegion, mapLoaded, displayName } = this.props
         if (!mapLoaded) {
             return <Spinner />
         }
@@ -37,6 +37,7 @@ class MapScreen extends React.Component {
                     showsMyLocationButton
                     showsCompass
                     showsScale
+                    userLocationAnnotationTitle={displayName}
                     initialRegion={currentPositionRegion}
                     minZoomLevel={10}
                     style={{ flex: 1 }}
@@ -65,9 +66,9 @@ const styles = {
 }
 
 const mapStateToProps = ({ auth, map }, ownProps) => {
-    const { loggedIn } = auth
+    const { loggedIn, user: { displayName } } = auth
     const { currentPositionRegion, currentPositionWatchId, mapLoaded } = map
-    return { loggedIn, currentPositionRegion, currentPositionWatchId, mapLoaded }
+    return { displayName, loggedIn, currentPositionRegion, currentPositionWatchId, mapLoaded }
 }
 
 export default connect(mapStateToProps, actions)(MapScreen)
